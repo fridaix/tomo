@@ -1,0 +1,60 @@
+.tomo-tree {
+  font-size: 13.5px;
+}
+
+.tomo-tree-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 5px 8px;
+  border: none;
+  background: transparent;
+  border-radius: var(--tomo-radius-sm);
+  cursor: pointer;
+  text-align: left;
+  color: var(--tomo-fg-muted);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 450;
+  transition: background-color 0.1s ease, color 0.1s ease;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.tomo-tree-row:hover {
+  background-color: var(--tomo-hover);
+  color: var(--tomo-text);
+}
+
+.tomo-tree-row.is-active {
+  background-color: var(--tomo-active);
+  color: var(--tomo-text);
+  font-weight: 600;
+}
+
+.tomo-tree-row.is-folder {
+  color: var(--tomo-text);
+  font-weight: 550;
+}
+
+.tomo-tree-disclosure {
+  width: 14px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--tomo-fg-subtle);
+}
+
+.tomo-chevron {
+  transition: transform 0.15s ease;
+}
+.tomo-chevron.is-open {
+  transform: rotate(90deg);
+}
+
+.tomo-tree-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

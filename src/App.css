@@ -1,0 +1,315 @@
+.tomo-app {
+  height: 100%;
+  display: flex;
+  background-color: var(--tomo-bg);
+}
+
+/* ============ 侧边栏 ============ */
+.tomo-sidebar {
+  width: 264px;
+  flex-shrink: 0;
+  background-color: var(--tomo-sidebar);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.2s ease, margin-left 0.2s ease;
+  overflow: hidden;
+}
+
+.tomo-sidebar.is-collapsed {
+  width: 0;
+  margin-left: 0;
+}
+
+.tomo-sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 6px;
+}
+
+.tomo-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.tomo-brand-mark {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--tomo-accent), var(--tomo-accent-deep));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.tomo-brand-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--tomo-text);
+  letter-spacing: -0.01em;
+}
+
+/* 搜索框 */
+.tomo-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 12px 4px;
+  padding: 7px 10px;
+  background-color: var(--tomo-hover);
+  border-radius: var(--tomo-radius-sm);
+  color: var(--tomo-fg-subtle);
+}
+
+.tomo-search-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--tomo-text);
+  width: 100%;
+}
+.tomo-search-input::placeholder {
+  color: var(--tomo-fg-subtle);
+}
+
+.tomo-sidebar-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 8px;
+}
+
+.tomo-collection-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--tomo-fg-subtle);
+  padding: 6px 10px 4px;
+}
+
+.tomo-sidebar-foot {
+  padding: 10px 12px;
+  border-top: 1px solid var(--tomo-border-soft);
+}
+
+.tomo-user {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px;
+  border-radius: var(--tomo-radius-sm);
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+.tomo-user:hover {
+  background-color: var(--tomo-hover);
+}
+
+.tomo-user-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--tomo-accent), var(--tomo-accent-deep));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.tomo-user-name {
+  font-size: 13px;
+  color: var(--tomo-text);
+  font-weight: 500;
+}
+
+/* ============ 主区 ============ */
+.tomo-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* 顶栏：轻量、几乎透明 */
+.tomo-topbar {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+
+.tomo-topbar-left,
+.tomo-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tomo-breadcrumb {
+  display: flex;
+  align-items: center;
+  font-size: 13.5px;
+  color: var(--tomo-fg-muted);
+  margin-left: 4px;
+}
+
+.tomo-crumb {
+  display: inline-flex;
+  align-items: center;
+}
+
+.tomo-crumb-sep {
+  margin: 0 7px;
+  color: var(--tomo-fg-subtle);
+}
+
+.tomo-crumb.is-current {
+  color: var(--tomo-text);
+  font-weight: 500;
+}
+
+/* 图标按钮 */
+.tomo-icon-btn {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: transparent;
+  color: var(--tomo-fg-muted);
+  border-radius: var(--tomo-radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+.tomo-icon-btn:hover {
+  background-color: var(--tomo-hover);
+  color: var(--tomo-text);
+}
+
+/* 阅读/编辑切换 */
+.tomo-mode-switch {
+  display: flex;
+  background-color: var(--tomo-hover);
+  border-radius: var(--tomo-radius-pill);
+  padding: 2px;
+  margin-right: 4px;
+}
+
+.tomo-mode-btn {
+  border: none;
+  background: transparent;
+  padding: 5px 14px;
+  border-radius: var(--tomo-radius-pill);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--tomo-fg-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.tomo-mode-btn.is-active {
+  background-color: var(--tomo-surface);
+  color: var(--tomo-text);
+  box-shadow: var(--tomo-shadow-sm);
+}
+
+/* 文档滚动容器 */
+.tomo-doc-scroll {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* 保存按钮 */
+.tomo-save-btn {
+  border: none;
+  background-color: var(--tomo-accent);
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: var(--tomo-radius-pill);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+.tomo-save-btn:hover:not(:disabled) {
+  background-color: var(--tomo-accent-deep);
+}
+.tomo-save-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* 保存状态文字 */
+.tomo-save-status {
+  font-size: 12.5px;
+  color: var(--tomo-fg-subtle);
+  margin-right: 4px;
+}
+.tomo-save-status.is-saved {
+  color: #3a9a5c;
+}
+.tomo-save-status.is-error {
+  color: #c4452f;
+}
+
+/* 冲突横幅 */
+.tomo-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  font-size: 13.5px;
+}
+.tomo-banner-warn {
+  background-color: #FDF3E7;
+  color: #92400e;
+  border-bottom: 1px solid #F5E0C3;
+}
+.tomo-banner-action {
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  padding: 3px 12px;
+  border-radius: var(--tomo-radius-pill);
+  font-family: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tomo-banner-action:hover {
+  background-color: rgba(146, 64, 14, 0.08);
+}
+
+/* 空树状态 */
+.tomo-tree-empty {
+  padding: 16px 12px;
+  font-size: 13px;
+  color: var(--tomo-fg-subtle);
+  line-height: 1.5;
+}
+
+/* 居中文档区 (Outline 核心) */
+.tomo-doc {
+  max-width: var(--tomo-content-width);
+  margin: 0 auto;
+  padding: 24px 48px 160px;
+}
+
+@media (max-width: 768px) {
+  .tomo-doc {
+    padding: 16px 20px 120px;
+  }
+}

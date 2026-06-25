@@ -1,0 +1,86 @@
+:root {
+  color-scheme: light;
+
+  /* === Tomo 设计令牌 (Outline 风格：干净中性 + 克制强调) === */
+
+  /* 表面层级 */
+  --tomo-bg: #FFFFFF;            /* 主内容区：纯白 */
+  --tomo-sidebar: #FAFBFC;       /* 侧边栏：极浅灰 */
+  --tomo-surface: #FFFFFF;       /* 卡片 */
+  --tomo-hover: #F4F5F7;         /* hover 背景 */
+  --tomo-active: #EDEEF1;        /* 选中背景 */
+
+  /* 边框（极淡，几乎不可见） */
+  --tomo-border: #ECEDEF;        /* 主分割线 */
+  --tomo-border-soft: #F2F3F5;   /* 更淡的分隔 */
+
+  /* 文本层级 */
+  --tomo-text: #1A1B1F;          /* 主文本 */
+  --tomo-fg: #1A1B1F;            /* 别名 */
+  --tomo-text-soft: #6B7177;     /* 次要文本 */
+  --tomo-fg-muted: #6B7177;      /* 别名 */
+  --tomo-fg-subtle: #9BA1A8;     /* 更弱文本/图标 */
+
+  /* 强调色（收敛的暖色，仅用于交互点缀） */
+  --tomo-accent: #C4612F;        /* 强调主色 */
+  --tomo-accent-deep: #A94E22;   /* hover */
+  --tomo-accent-soft: rgba(196, 97, 47, 0.08); /* 极淡强调背景 */
+
+  /* 字体：全程干净 sans-serif (Outline 风) */
+  --tomo-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --tomo-font-serif: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+  --tomo-radius: 8px;
+  --tomo-radius-sm: 6px;
+  --tomo-radius-pill: 999px;
+
+  /* 文档阅读区宽度 (Outline 居中布局) */
+  --tomo-content-width: 46rem;
+
+  --tomo-shadow-sm: 0 1px 2px rgba(26, 27, 31, 0.04);
+  --tomo-shadow: 0 4px 16px rgba(26, 27, 31, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--tomo-font-sans);
+  font-weight: 400;
+  color: var(--tomo-text);
+  background-color: var(--tomo-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--tomo-accent-soft);
+  color: var(--tomo-text);
+}
+
+/* 极简滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #DDE0E3;
+  border-radius: var(--tomo-radius-pill);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #C7CBCF;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}

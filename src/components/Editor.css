@@ -1,0 +1,192 @@
+/* ============ 阅读模式：纯净渲染 ============ */
+.tomo-reader {
+  font-family: var(--tomo-font-sans);
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--tomo-text);
+}
+
+/* 让 wmde-markdown 融入页面，去掉自带背景/边框 */
+.tomo-reader .wmde-markdown {
+  background-color: transparent !important;
+  color: var(--tomo-text);
+  font-family: var(--tomo-font-sans);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+/* 标题层级 (Outline 风：粗、紧凑字距、充足上间距) */
+.tomo-reader .wmde-markdown h1 {
+  font-size: 2.25em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  border: none;
+  padding: 0;
+  margin: 0 0 0.4em;
+  line-height: 1.2;
+}
+.tomo-reader .wmde-markdown h2 {
+  font-size: 1.5em;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  border: none;
+  padding: 0;
+  margin: 1.6em 0 0.5em;
+}
+.tomo-reader .wmde-markdown h3 {
+  font-size: 1.2em;
+  font-weight: 600;
+  margin: 1.4em 0 0.4em;
+}
+.tomo-reader .wmde-markdown h4,
+.tomo-reader .wmde-markdown h5,
+.tomo-reader .wmde-markdown h6 {
+  font-weight: 600;
+  margin: 1.2em 0 0.3em;
+}
+
+.tomo-reader .wmde-markdown p {
+  margin: 0 0 1.1em;
+}
+
+/* 链接：克制的强调色，下划线在 hover 才出现 */
+.tomo-reader .wmde-markdown a {
+  color: var(--tomo-accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease;
+}
+.tomo-reader .wmde-markdown a:hover {
+  border-bottom-color: var(--tomo-accent);
+  text-decoration: none;
+}
+
+/* 行内代码 */
+.tomo-reader .wmde-markdown code {
+  background-color: var(--tomo-hover);
+  color: #C4612F;
+  padding: 0.15em 0.4em;
+  border-radius: 5px;
+  font-size: 0.88em;
+}
+
+/* 代码块：浅灰底，不再是黑块 */
+.tomo-reader .wmde-markdown pre {
+  background-color: #F7F8FA !important;
+  border: 1px solid var(--tomo-border);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+.tomo-reader .wmde-markdown pre code {
+  background-color: transparent;
+  color: #2B2F36;
+  padding: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+/* 引用：左侧细线，柔和 */
+.tomo-reader .wmde-markdown blockquote {
+  border-left: 3px solid var(--tomo-border);
+  background: transparent;
+  padding: 0.1em 0 0.1em 1.2em;
+  margin: 1.2em 0;
+  color: var(--tomo-fg-muted);
+}
+
+.tomo-reader .wmde-markdown ul,
+.tomo-reader .wmde-markdown ol {
+  padding-left: 1.5em;
+  margin: 0 0 1.1em;
+}
+.tomo-reader .wmde-markdown li {
+  margin: 0.3em 0;
+}
+.tomo-reader .wmde-markdown li::marker {
+  color: var(--tomo-fg-subtle);
+}
+
+/* 任务列表 */
+.tomo-reader .wmde-markdown input[type='checkbox'] {
+  accent-color: var(--tomo-accent);
+}
+
+/* 分割线 */
+.tomo-reader .wmde-markdown hr {
+  border: none;
+  border-top: 1px solid var(--tomo-border);
+  margin: 2.4em 0;
+}
+
+/* 表格：轻量 */
+.tomo-reader .wmde-markdown table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.2em 0;
+  font-size: 14.5px;
+}
+.tomo-reader .wmde-markdown table th,
+.tomo-reader .wmde-markdown table td {
+  border: 1px solid var(--tomo-border);
+  padding: 8px 13px;
+  text-align: left;
+}
+.tomo-reader .wmde-markdown table th {
+  background-color: var(--tomo-sidebar);
+  font-weight: 600;
+}
+.tomo-reader .wmde-markdown table tr {
+  background-color: transparent;
+}
+.tomo-reader .wmde-markdown table tr:nth-child(2n) {
+  background-color: #FCFCFD;
+}
+
+/* ============ 编辑模式：无边框沉浸 ============ */
+.tomo-editor-wrapper {
+  width: 100%;
+}
+
+/* 去掉编辑器的边框、阴影、圆角，让它像在写纯文本 */
+.tomo-editor-wrapper .tomo-editor.w-md-editor {
+  box-shadow: none !important;
+  border: none !important;
+  background-color: transparent !important;
+  --md-editor-background-color: transparent;
+}
+
+.tomo-editor-wrapper .w-md-editor-toolbar {
+  background-color: var(--tomo-bg);
+  border: 1px solid var(--tomo-border);
+  border-radius: var(--tomo-radius);
+  padding: 6px 8px;
+  margin-bottom: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.tomo-editor-wrapper .w-md-editor-toolbar li > button {
+  color: var(--tomo-fg-muted);
+  border-radius: 5px;
+}
+.tomo-editor-wrapper .w-md-editor-toolbar li > button:hover {
+  background-color: var(--tomo-hover);
+  color: var(--tomo-accent);
+}
+.tomo-editor-wrapper .w-md-editor-toolbar li.active > button {
+  background-color: var(--tomo-accent-soft);
+  color: var(--tomo-accent);
+}
+
+.tomo-editor-wrapper .w-md-editor-text {
+  padding: 0;
+}
+.tomo-editor-wrapper .w-md-editor-text-pre,
+.tomo-editor-wrapper .w-md-editor-text-input,
+.tomo-editor-wrapper .w-md-editor-text-pre > code {
+  font-family: 'SFMono-Regular', ui-monospace, 'JetBrains Mono', Menlo, monospace !important;
+  font-size: 14.5px !important;
+  line-height: 1.75 !important;
+  color: var(--tomo-text);
+}
