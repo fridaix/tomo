@@ -42,6 +42,8 @@ npm run dev               # http://localhost:5173
 
 前端 `/api` 请求通过 Vite 代理转发到后端 `:4000`。
 
+打开 http://localhost:5173 后会看到登录页，用种子管理员账号登录（默认 `admin` / `admin`，可在 `.env` 改）。
+
 > 若 `npm install` 报 rollup/esbuild 平台二进制缺失，先 `rm -rf node_modules package-lock.json` 再装。
 
 ## 后端接口
@@ -51,20 +53,33 @@ npm run dev               # http://localhost:5173
 | GET | `/api/health` | 健康检查（不鉴权） |
 | GET | `/api/tree` | 文档树 |
 | GET | `/api/doc?path=` | 读单篇 + 当前 blob oid |
+| POST | `/api/doc` | 新建文档（已存在返回 409） |
 | PUT | `/api/doc` | 保存 + commit（带冲突检测） |
 | DELETE | `/api/doc?path=` | 删除 + commit |
+| POST | `/api/move` | 重命名 / 移动 + commit |
 | GET | `/api/history?path=` | 历史版本列表 |
 | GET | `/api/revision?path=&commit=` | 读历史某版本 |
 | GET | `/api/search?q=` | 全文搜索 |
+| POST | `/api/upload` | 上传图片（原始二进制，存入 assets/ 并 commit） |
+| GET | `/api/asset?path=` | 读取图片附件 |
+| POST | `/api/login` | 登录（建立会话 cookie） |
+| POST | `/api/logout` | 登出 |
+| GET | `/api/whoami` | 当前登录用户 |
+| GET/POST/PUT/DELETE | `/api/users…` | 用户管理（仅 writer；含改角色 `/users/role`、改密码 `/users/password`） |
+
+读接口需登录；写接口（save / create / move / delete / upload / users）需 writer 角色。writer 校验读取存储里的实时角色，角色变更立即生效。
 
 ## 鉴权
 
-后端用共享密码中间件：
+基于会话 cookie + 角色：
 
-- `.env` 里 `TOMO_PASSWORD` 留空 = 不鉴权（本地开发）
-- 设置后，前端请求需带 `x-tomo-password` 头
+- 用户存在 `TOMO_USERS_FILE`（JSON），密码用 bcrypt 哈希，从不明文存储
+- 首次启动若无用户，自动创建种子管理员（`TOMO_ADMIN_USER` / `TOMO_ADMIN_PASSWORD`，默认 admin/admin），登录后请尽快改密码
+- 两种角色：`writer`（可读写、管理用户）和 `reader`（只读）
+- 会话用 `express-session`，cookie 为 httpOnly，签名密钥 `TOMO_SESSION_SECRET`（生产务必改）
+- 因为用 cookie，浏览器渲染 `<img>` 会自动带上,图片附件鉴权天然可用
 
-这是小团队最轻方案，未来可替换为会话 / OAuth 而不影响业务路由。
+零数据库依赖：用户就是一个 JSON 文件，和「单服务 + 数据目录」架构一致。未来要 OAuth / 2FA 可平滑迁到 Better Auth。
 
 ## 目录结构
 
@@ -73,34 +88,39 @@ npm run dev               # http://localhost:5173
 ├── index.html
 ├── vite.config.ts          # 含 /api -> :4000 代理
 ├── src/                     # 前端
-│   ├── api.ts               # API 客户端
-│   ├── App.tsx              # 主布局 + 保存/冲突逻辑
+│   ├── api.ts               # API 客户端（cookie 会话）
+│   ├── App.tsx              # 主布局 + 保存/冲突 + 鉴权门
 │   ├── components/
-│   │   ├── DocTree.tsx
-│   │   └── Editor.tsx       # 阅读/编辑双模式
+│   │   ├── DocTree.tsx      # 文档树 + 行操作菜单
+│   │   ├── Editor.tsx       # 阅读/编辑双模式 + 图片上传
+│   │   ├── SearchPanel.tsx  # ⌘K 搜索
+│   │   ├── HistoryPanel.tsx # 历史版本
+│   │   └── LoginPage.tsx    # 登录页
 │   └── styles/
 └── server/                  # 后端
     └── src/
         ├── index.ts         # Express 路由
         ├── config.ts
-        ├── repo.ts          # 文件系统读（树/文档）
-        ├── gitops.ts        # git 写/历史/恢复
+        ├── repo.ts          # 文件系统读（树/文档/附件）
+        ├── gitops.ts        # git 写/历史/恢复/附件
         ├── search.ts        # 内存搜索索引
-        └── auth.ts          # 共享密码中间件
+        ├── users.ts         # 用户存储（JSON + bcrypt）
+        └── auth.ts          # 会话 + 角色中间件
 ```
 
 ## 已实现
 
 - 文档树、读文档、保存生成 commit
 - 乐观锁冲突检测（防覆盖他人修改）
-- 历史版本列表 + 历史内容读取
-- 删除文档
-- 全文搜索（内存索引，标题权重高于正文）
+- 历史版本列表 + 历史内容读取 + 恢复
+- 新建 / 重命名 / 移动 / 删除文档
+- 全文搜索（内存索引，标题权重高于正文，⌘K 唤起）
+- 图片粘贴 / 拖拽上传（内容哈希命名 + 去重，存入仓库 assets/ 并 commit）
+- 登录页 + 会话鉴权 + reader/writer 角色（reader 只读，UI 自动隐藏编辑入口）
+- 用户管理面板（writer 可加人 / 改角色 / 改密码 / 删除；角色变更即时生效，无需重新登录）
 - 阅读 / 编辑双模式，Cmd/Ctrl+S 保存
 
 ## 待做
 
-- 前端接入搜索框、历史面板 UI（后端接口已就绪）
-- 新建 / 重命名 / 移动文档的前端交互
-- 图片上传 / 粘贴
-- 登录页（当前密码靠请求头传）
+- 修改自己密码的界面
+- OAuth / 2FA（如有需要，建议迁移到 Better Auth）

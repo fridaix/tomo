@@ -33,22 +33,32 @@ export interface SaveResult {
   currentOid?: string;
 }
 
-const BASE = '/api';
-
-/** 可选的共享密码，存在内存里（登录后设置） */
-let password = '';
-export function setPassword(p: string): void {
-  password = p;
+export interface UploadResult {
+  ok: boolean;
+  path: string;
+  url: string;
 }
+
+export type Role = 'reader' | 'writer';
+
+export interface User {
+  username: string;
+  role: Role;
+}
+
+const BASE = '/api';
 
 async function req<T>(path: string, init?: RequestInit): Promise<T> {
   const headers: Record<string, string> = {
     'content-type': 'application/json',
     ...(init?.headers as Record<string, string>),
   };
-  if (password) headers['x-tomo-password'] = password;
 
-  const res = await fetch(`${BASE}${path}`, { ...init, headers });
+  const res = await fetch(`${BASE}${path}`, {
+    ...init,
+    headers,
+    credentials: 'include', // 携带会话 cookie
+  });
   if (!res.ok && res.status !== 409) {
     const body = await res.json().catch(() => ({}));
     throw new ApiError(res.status, body.error ?? res.statusText);
@@ -75,6 +85,18 @@ export const api = {
       body: JSON.stringify({ path, content, baseOid }),
     }),
 
+  create: (path: string, content = '') =>
+    req<SaveResult & { error?: string }>('/doc', {
+      method: 'POST',
+      body: JSON.stringify({ path, content }),
+    }),
+
+  move: (from: string, to: string) =>
+    req<{ ok: boolean; error?: string; commit?: string; oid?: string }>('/move', {
+      method: 'POST',
+      body: JSON.stringify({ from, to }),
+    }),
+
   remove: (path: string) =>
     req<{ ok: boolean; commit?: string }>(
       `/doc?path=${encodeURIComponent(path)}`,
@@ -94,5 +116,58 @@ export const api = {
   search: (q: string) =>
     req<{ hits: SearchHit[] }>(`/search?q=${encodeURIComponent(q)}`).then(
       (r) => r.hits
+    ),
+
+  /** 上传图片附件（原始二进制） */
+  upload: async (file: File): Promise<UploadResult> => {
+    const res = await fetch(`${BASE}/upload`, {
+      method: 'POST',
+      headers: { 'content-type': file.type },
+      body: file,
+      credentials: 'include',
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      throw new ApiError(res.status, body.error ?? res.statusText);
+    }
+    return res.json() as Promise<UploadResult>;
+  },
+
+  // === 认证 ===
+  whoami: () => req<{ user: User | null }>('/whoami').then((r) => r.user),
+
+  login: (username: string, password: string) =>
+    req<{ user: User }>('/login', {
+      method: 'POST',
+      body: JSON.stringify({ username, password }),
+    }).then((r) => r.user),
+
+  logout: () => req<{ ok: boolean }>('/logout', { method: 'POST' }),
+
+  // === 用户管理（仅 writer） ===
+  listUsers: () => req<{ users: User[] }>('/users').then((r) => r.users),
+
+  createUser: (username: string, password: string, role: Role) =>
+    req<{ ok: boolean; error?: string }>('/users', {
+      method: 'POST',
+      body: JSON.stringify({ username, password, role }),
+    }),
+
+  setUserRole: (username: string, role: Role) =>
+    req<{ ok: boolean; error?: string }>('/users/role', {
+      method: 'PUT',
+      body: JSON.stringify({ username, role }),
+    }),
+
+  setUserPassword: (username: string, password: string) =>
+    req<{ ok: boolean; error?: string }>('/users/password', {
+      method: 'PUT',
+      body: JSON.stringify({ username, password }),
+    }),
+
+  deleteUser: (username: string) =>
+    req<{ ok: boolean; error?: string }>(
+      `/users?username=${encodeURIComponent(username)}`,
+      { method: 'DELETE' }
     ),
 };

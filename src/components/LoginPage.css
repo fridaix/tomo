@@ -1,0 +1,107 @@
+.tomo-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--tomo-bg);
+  padding: 20px;
+}
+
+.tomo-login-card {
+  width: 100%;
+  max-width: 360px;
+  background-color: var(--tomo-surface);
+  border: 1px solid var(--tomo-border);
+  border-radius: var(--tomo-radius);
+  box-shadow: var(--tomo-shadow);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tomo-login-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tomo-login-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background-color: var(--tomo-accent);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 7px;
+  font-size: 16px;
+}
+
+.tomo-login-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--tomo-text);
+}
+
+.tomo-login-sub {
+  font-size: 13.5px;
+  color: var(--tomo-fg-muted);
+  margin: 0 0 6px;
+}
+
+.tomo-login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.tomo-login-field span {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--tomo-fg-muted);
+}
+.tomo-login-field input {
+  border: 1px solid var(--tomo-border);
+  border-radius: var(--tomo-radius-sm);
+  padding: 9px 11px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--tomo-text);
+  background-color: var(--tomo-surface);
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.tomo-login-field input:focus {
+  outline: none;
+  border-color: var(--tomo-accent);
+  box-shadow: 0 0 0 3px var(--tomo-accent-soft);
+}
+
+.tomo-login-error {
+  font-size: 13px;
+  color: #c4452f;
+  background-color: #fbeae6;
+  padding: 8px 11px;
+  border-radius: var(--tomo-radius-sm);
+}
+
+.tomo-login-btn {
+  margin-top: 4px;
+  border: none;
+  background-color: var(--tomo-accent);
+  color: #fff;
+  padding: 10px;
+  border-radius: var(--tomo-radius-sm);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+.tomo-login-btn:hover:not(:disabled) {
+  background-color: var(--tomo-accent-deep);
+}
+.tomo-login-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}

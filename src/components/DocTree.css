@@ -2,11 +2,26 @@
   font-size: 13.5px;
 }
 
+/* 行容器：承载行按钮 + 悬浮的更多菜单 */
+.tomo-tree-row-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: var(--tomo-radius-sm);
+}
+.tomo-tree-row-wrap:hover {
+  background-color: var(--tomo-hover);
+}
+.tomo-tree-row-wrap.is-active {
+  background-color: var(--tomo-active);
+}
+
 .tomo-tree-row {
   display: flex;
   align-items: center;
   gap: 4px;
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   padding: 5px 8px;
   border: none;
   background: transparent;
@@ -17,18 +32,16 @@
   font-family: inherit;
   font-size: inherit;
   font-weight: 450;
-  transition: background-color 0.1s ease, color 0.1s ease;
+  transition: color 0.1s ease;
   white-space: nowrap;
   overflow: hidden;
 }
 
-.tomo-tree-row:hover {
-  background-color: var(--tomo-hover);
+.tomo-tree-row-wrap:hover .tomo-tree-row {
   color: var(--tomo-text);
 }
 
 .tomo-tree-row.is-active {
-  background-color: var(--tomo-active);
   color: var(--tomo-text);
   font-weight: 600;
 }
@@ -57,4 +70,70 @@
 .tomo-tree-label {
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* 更多操作菜单 */
+.tomo-tree-menu {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.tomo-tree-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-right: 4px;
+  border: none;
+  background: transparent;
+  color: var(--tomo-fg-subtle);
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.1s ease, background-color 0.1s ease, color 0.1s ease;
+}
+.tomo-tree-row-wrap:hover .tomo-tree-more {
+  opacity: 1;
+}
+.tomo-tree-more:hover {
+  background-color: var(--tomo-active);
+  color: var(--tomo-text);
+}
+
+.tomo-tree-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 250;
+  min-width: 140px;
+  background-color: var(--tomo-surface);
+  border: 1px solid var(--tomo-border);
+  border-radius: var(--tomo-radius-sm);
+  box-shadow: var(--tomo-shadow);
+  padding: 4px;
+  margin-top: 2px;
+}
+
+.tomo-tree-dropdown button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  padding: 7px 10px;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--tomo-text);
+  cursor: pointer;
+}
+.tomo-tree-dropdown button:hover {
+  background-color: var(--tomo-hover);
+}
+.tomo-tree-dropdown button.is-danger {
+  color: #c4452f;
+}
+.tomo-tree-dropdown button.is-danger:hover {
+  background-color: #fbeae6;
 }

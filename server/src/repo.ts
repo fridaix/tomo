@@ -84,6 +84,12 @@ export async function readDoc(relPath: string): Promise<string> {
   return fs.readFile(abs, 'utf-8');
 }
 
+/** 读取二进制文件（附件），带路径越界保护 */
+export async function readBinary(relPath: string): Promise<Buffer> {
+  const abs = resolveRepoPath(relPath);
+  return fs.readFile(abs);
+}
+
 /** 列出所有 .md 文件的相对路径（供搜索索引用） */
 export async function listMarkdownFiles(dir: string = REPO): Promise<string[]> {
   let entries: import('node:fs').Dirent[];

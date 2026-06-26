@@ -145,6 +145,22 @@
 /* ============ 编辑模式：无边框沉浸 ============ */
 .tomo-editor-wrapper {
   width: 100%;
+  position: relative;
+}
+
+/* 上传提示 */
+.tomo-upload-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 400;
+  background-color: var(--tomo-text);
+  color: #fff;
+  font-size: 13px;
+  padding: 8px 18px;
+  border-radius: var(--tomo-radius-pill);
+  box-shadow: var(--tomo-shadow);
 }
 
 /* 去掉编辑器的边框、阴影、圆角，让它像在写纯文本 */

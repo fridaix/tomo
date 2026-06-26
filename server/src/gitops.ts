@@ -108,6 +108,119 @@ export async function deleteDoc(relPath: string): Promise<{ ok: boolean; commit?
   });
 }
 
+export interface MoveResult {
+  ok: boolean;
+  error?: 'source_missing' | 'target_exists';
+  commit?: string;
+  oid?: string;
+}
+
+/**
+ * 重命名 / 移动文档。git 没有原生 move，本质是删旧 + 加新 + commit。
+ * 目标已存在时拒绝，避免覆盖。
+ */
+export async function moveDoc(fromPath: string, toPath: string): Promise<MoveResult> {
+  return enqueue(async () => {
+    const fromAbs = resolveRepoPath(fromPath);
+    const toAbs = resolveRepoPath(toPath);
+    const fromGit = fromPath.replace(/^\/+/, '');
+    const toGit = toPath.replace(/^\/+/, '');
+
+    if (!fs.existsSync(fromAbs)) {
+      return { ok: false, error: 'source_missing' };
+    }
+    if (fs.existsSync(toAbs)) {
+      return { ok: false, error: 'target_exists' };
+    }
+
+    const content = await fsp.readFile(fromAbs);
+    await fsp.mkdir(path.dirname(toAbs), { recursive: true });
+    await fsp.writeFile(toAbs, content);
+    await fsp.rm(fromAbs, { force: true });
+
+    await git.remove({ fs, dir: REPO, filepath: fromGit });
+    await git.add({ fs, dir: REPO, filepath: toGit });
+    const commit = await git.commit({
+      fs,
+      dir: REPO,
+      message: `docs: move ${fromGit} -> ${toGit}`,
+      author,
+    });
+
+    const oid = (await git.hashBlob({ object: content })).oid;
+    return { ok: true, commit, oid };
+  });
+}
+
+export interface CreateResult {
+  ok: boolean;
+  error?: 'exists';
+  commit?: string;
+  oid?: string;
+}
+
+/** 新建文档。已存在则拒绝（避免误覆盖）。 */
+export async function createDoc(relPath: string, content = ''): Promise<CreateResult> {
+  return enqueue(async () => {
+    const abs = resolveRepoPath(relPath);
+    const gitPath = relPath.replace(/^\/+/, '');
+    if (fs.existsSync(abs)) {
+      return { ok: false, error: 'exists' };
+    }
+    await fsp.mkdir(path.dirname(abs), { recursive: true });
+    await fsp.writeFile(abs, content, 'utf-8');
+    await git.add({ fs, dir: REPO, filepath: gitPath });
+    const commit = await git.commit({
+      fs,
+      dir: REPO,
+      message: `docs: create ${gitPath}`,
+      author,
+    });
+    const oid = (await git.hashBlob({ object: Buffer.from(content, 'utf-8') })).oid;
+    return { ok: true, commit, oid };
+  });
+}
+
+export interface UploadResult {
+  ok: boolean;
+  path: string; // 仓库内相对路径，如 /assets/ab/cd1234.png
+  url: string; // 前端可访问的 URL
+}
+
+/**
+ * 保存上传的附件到仓库 assets/ 目录并 commit。
+ * 用内容哈希命名（同图去重，避免覆盖冲突），按前两位分桶避免单目录文件过多。
+ */
+export async function saveAsset(
+  data: Buffer,
+  ext: string
+): Promise<UploadResult> {
+  return enqueue(async () => {
+    const oid = (await git.hashBlob({ object: data })).oid;
+    const safeExt = ext.replace(/[^a-z0-9]/gi, '').toLowerCase() || 'bin';
+    const relPath = `/assets/${oid.slice(0, 2)}/${oid.slice(2)}.${safeExt}`;
+    const abs = resolveRepoPath(relPath);
+    const gitPath = relPath.replace(/^\/+/, '');
+    const url = `/api/asset?path=${encodeURIComponent(relPath)}`;
+
+    // 已存在（同内容）则直接复用，不重复 commit
+    if (fs.existsSync(abs)) {
+      return { ok: true, path: relPath, url };
+    }
+
+    await fsp.mkdir(path.dirname(abs), { recursive: true });
+    await fsp.writeFile(abs, data);
+    await git.add({ fs, dir: REPO, filepath: gitPath });
+    await git.commit({
+      fs,
+      dir: REPO,
+      message: `docs: add asset ${gitPath}`,
+      author,
+    });
+    return { ok: true, path: relPath, url };
+  });
+}
+
 export interface Revision {
   commit: string;
   message: string;

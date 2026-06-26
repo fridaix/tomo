@@ -1,0 +1,170 @@
+.tomo-history-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(26, 27, 31, 0.18);
+  z-index: 300;
+  animation: tomo-fade 0.15s ease;
+}
+@keyframes tomo-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.tomo-history {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 720px;
+  max-width: 90vw;
+  background-color: var(--tomo-surface);
+  border-left: 1px solid var(--tomo-border);
+  box-shadow: -8px 0 32px rgba(26, 27, 31, 0.1);
+  z-index: 301;
+  display: flex;
+  flex-direction: column;
+  animation: tomo-slide 0.2s ease;
+}
+@keyframes tomo-slide {
+  from {
+    transform: translateX(20px);
+    opacity: 0.6;
+  }
+}
+
+.tomo-history-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--tomo-border);
+}
+
+.tomo-history-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--tomo-text);
+  margin: 0;
+}
+
+.tomo-history-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+/* 左侧版本列表 */
+.tomo-history-list {
+  width: 260px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--tomo-border);
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.tomo-history-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  padding: 10px;
+  border-radius: var(--tomo-radius-sm);
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+  margin-bottom: 2px;
+}
+.tomo-history-item:hover {
+  background-color: var(--tomo-hover);
+}
+.tomo-history-item.is-active {
+  background-color: var(--tomo-active);
+}
+
+.tomo-history-item-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.tomo-history-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--tomo-accent);
+  background-color: var(--tomo-accent-soft);
+  padding: 1px 7px;
+  border-radius: var(--tomo-radius-pill);
+}
+
+.tomo-history-time {
+  font-size: 11.5px;
+  color: var(--tomo-fg-subtle);
+}
+
+.tomo-history-msg {
+  font-size: 13px;
+  color: var(--tomo-text);
+  line-height: 1.4;
+  margin-bottom: 2px;
+}
+
+.tomo-history-author {
+  font-size: 11.5px;
+  color: var(--tomo-fg-muted);
+}
+
+/* 右侧预览 */
+.tomo-history-preview {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.tomo-history-preview-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--tomo-border-soft);
+}
+
+.tomo-history-preview-label {
+  font-size: 12.5px;
+  color: var(--tomo-fg-muted);
+}
+
+.tomo-restore-btn {
+  border: none;
+  background-color: var(--tomo-accent);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: var(--tomo-radius-pill);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.tomo-restore-btn:hover {
+  background-color: var(--tomo-accent-deep);
+}
+
+.tomo-history-preview-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+}
+.tomo-history-preview-content .wmde-markdown {
+  background-color: transparent;
+  font-family: var(--tomo-font-sans);
+}
+
+.tomo-history-empty {
+  padding: 40px 20px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--tomo-fg-subtle);
+}

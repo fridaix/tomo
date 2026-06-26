@@ -85,12 +85,35 @@
 }
 
 .tomo-collection-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--tomo-fg-subtle);
-  padding: 6px 10px 4px;
+  padding: 6px 8px 4px 10px;
+}
+
+.tomo-new-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: transparent;
+  color: var(--tomo-fg-subtle);
+  border-radius: 5px;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+.tomo-new-btn:hover {
+  background-color: var(--tomo-hover);
+  color: var(--tomo-accent);
 }
 
 .tomo-sidebar-foot {
@@ -128,6 +151,43 @@
   font-size: 13px;
   color: var(--tomo-text);
   font-weight: 500;
+}
+
+.tomo-user-meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.tomo-user-role {
+  font-size: 11px;
+  color: var(--tomo-fg-subtle);
+}
+
+.tomo-logout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: none;
+  background: transparent;
+  color: var(--tomo-fg-subtle);
+  border-radius: 6px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+.tomo-logout-btn:hover {
+  background-color: var(--tomo-hover);
+  color: var(--tomo-text);
+}
+
+.tomo-auth-loading {
+  min-height: 100vh;
+  background-color: var(--tomo-bg);
 }
 
 /* ============ 主区 ============ */
