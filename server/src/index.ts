@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
+import path from 'node:path';
+import fs from 'node:fs';
 import { config } from './config.js';
 import { requireAuth, requireWriter } from './auth.js';
 import {
@@ -414,6 +416,19 @@ async function start(): Promise<void> {
   await ensureRepo();
   await ensureSeedAdmin();
   await rebuildIndex();
+
+  // 生产环境：托管前端静态文件（与 API 同一服务/端口）
+  // TOMO_STATIC_DIR 指向前端 `vite build` 的产物目录（dist）
+  const staticDir = process.env.TOMO_STATIC_DIR;
+  if (staticDir && fs.existsSync(staticDir)) {
+    app.use(express.static(staticDir));
+    // SPA 兜底：非 /api 路由都回 index.html，交给前端路由
+    app.get(/^\/(?!api\/).*/, (_req, res) => {
+      res.sendFile(path.join(staticDir, 'index.html'));
+    });
+    console.log(`Serving frontend from: ${staticDir}`);
+  }
+
   app.listen(config.port, () => {
     console.log(`Tomo server listening on :${config.port}`);
     console.log(`Repo: ${config.repoPath}`);

@@ -46,6 +46,39 @@ npm run dev               # http://localhost:5173
 
 > 若 `npm install` 报 rollup/esbuild 平台二进制缺失，先 `rm -rf node_modules package-lock.json` 再装。
 
+## Docker 部署
+
+生产用单容器方案：后端同时托管 API 和前端静态文件，一个镜像、一个端口、一个数据卷。
+
+```bash
+# 1. 准备环境变量
+cp .env.example .env
+# 编辑 .env，至少设置：
+#   TOMO_SESSION_SECRET  （openssl rand -hex 32 生成）
+#   TOMO_ADMIN_PASSWORD  （管理员初始密码）
+
+# 2. 构建并启动
+docker compose up -d --build
+
+# 3. 访问
+# http://<服务器>:4000  用 .env 里的管理员账号登录
+```
+
+数据持久化在命名卷 `tomo-data`（挂到容器内 `/data`）：
+
+- `/data/tomo-docs` — 文档 Git 仓库
+- `/data/users.json` — 用户与密码哈希
+
+文档随时可取走：`docker compose exec tomo git -C /data/tomo-docs log`，或把卷里的 `tomo-docs` 目录 `git clone` 出来。
+
+放到反向代理后面（推荐，便于上 HTTPS）：
+
+```text
+Internet → Caddy/Nginx (443, TLS) → tomo:4000
+```
+
+> 反代记得转发 cookie（会话依赖它）。Caddy 示例：`reverse_proxy localhost:4000`，默认即可。
+
 ## 后端接口
 
 | 方法 | 路径 | 说明 |
