@@ -325,6 +325,37 @@
   color: #c4452f;
 }
 
+/* 保存成功 toast（居中底部弹出） */
+.tomo-save-toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background-color: #2f8a4e;
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 9px 18px;
+  border-radius: var(--tomo-radius-pill);
+  box-shadow: var(--tomo-shadow);
+  animation: tomo-toast-in 0.22s ease;
+}
+
+@keyframes tomo-toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
 /* 冲突横幅 */
 .tomo-banner {
   display: flex;
