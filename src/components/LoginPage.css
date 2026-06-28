@@ -23,32 +23,13 @@
 .tomo-login-brand {
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-.tomo-login-mark {
-  display: flex;
-  align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  background-color: var(--tomo-accent);
-  color: #fff;
-  font-weight: 700;
-  border-radius: 7px;
-  font-size: 16px;
 }
 
-.tomo-login-name {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--tomo-text);
-}
-
-.tomo-login-sub {
-  font-size: 13.5px;
-  color: var(--tomo-fg-muted);
-  margin: 0 0 6px;
+.tomo-login-logo {
+  display: block;
+  width: min(240px, 100%);
+  height: auto;
 }
 
 .tomo-login-field {

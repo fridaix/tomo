@@ -42,27 +42,12 @@
 .tomo-brand {
   display: flex;
   align-items: center;
-  gap: 9px;
 }
 
-.tomo-brand-mark {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  background: linear-gradient(135deg, var(--tomo-accent), var(--tomo-accent-deep));
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.tomo-brand-name {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--tomo-text);
-  letter-spacing: -0.01em;
+.tomo-brand-logo {
+  display: block;
+  width: 112px;
+  height: auto;
 }
 
 /* 搜索框 */

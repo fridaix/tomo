@@ -35,10 +35,8 @@ export default function LoginPage({ onLoggedIn }: LoginPageProps) {
     <div className="tomo-login">
       <form className="tomo-login-card" onSubmit={submit}>
         <div className="tomo-login-brand">
-          <span className="tomo-login-mark">T</span>
-          <span className="tomo-login-name">Tomo</span>
+          <img className="tomo-login-logo" src="/assets/tomo-logo.svg" alt="Tomo" />
         </div>
-        <p className="tomo-login-sub">登录以访问团队文档</p>
 
         <label className="tomo-login-field">
           <span>用户名</span>

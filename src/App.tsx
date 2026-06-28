@@ -255,8 +255,7 @@ export default function App() {
       <aside className={`tomo-sidebar ${sidebarOpen ? '' : 'is-collapsed'}`}>
         <div className="tomo-sidebar-top">
           <div className="tomo-brand">
-            <span className="tomo-brand-mark">T</span>
-            <span className="tomo-brand-name">Tomo</span>
+            <img className="tomo-brand-logo" src="/assets/tomo-wordmark.svg" alt="Tomo" />
           </div>
         </div>
 
