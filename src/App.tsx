@@ -9,6 +9,26 @@ import { api, ApiError, type DocNode, type User } from './api';
 import './App.css';
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'conflict' | 'error';
+type DocWidth = 'focus' | 'spacious' | 'expansive';
+
+const DOC_WIDTH_OPTIONS: Array<{ value: DocWidth; label: string; title: string }> = [
+  { value: 'focus', label: '专注', title: '适合短文阅读的窄版式' },
+  { value: 'spacious', label: '舒展', title: '默认宽版式' },
+  { value: 'expansive', label: '开阔', title: '适合表格和长行内容的超宽版式' },
+];
+
+function readDocWidth(): DocWidth {
+  if (typeof window === 'undefined') return 'spacious';
+  try {
+    const saved = window.localStorage.getItem('tomo-doc-width');
+    if (saved === 'focus' || saved === 'spacious' || saved === 'expansive') {
+      return saved;
+    }
+  } catch {
+    // 使用默认宽度即可
+  }
+  return 'spacious';
+}
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -24,6 +44,7 @@ export default function App() {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [usersOpen, setUsersOpen] = useState(false);
+  const [docWidth, setDocWidth] = useState<DocWidth>(readDocWidth);
 
   // 加载文档树
   const loadTree = useCallback(async () => {
@@ -89,6 +110,15 @@ export default function App() {
   }, []);
 
   const isWriter = user?.role === 'writer';
+
+  const changeDocWidth = (next: DocWidth) => {
+    setDocWidth(next);
+    try {
+      window.localStorage.setItem('tomo-doc-width', next);
+    } catch {
+      // 本地存储不可用时只在当前会话生效
+    }
+  };
 
   const handleSelect = (node: DocNode) => {
     if (node.type === 'file') void openDoc(node.path);
@@ -221,7 +251,7 @@ export default function App() {
   }
 
   return (
-    <div className="tomo-app">
+    <div className="tomo-app" data-doc-width={docWidth}>
       <aside className={`tomo-sidebar ${sidebarOpen ? '' : 'is-collapsed'}`}>
         <div className="tomo-sidebar-top">
           <div className="tomo-brand">
@@ -317,6 +347,20 @@ export default function App() {
           </div>
           <div className="tomo-topbar-right">
             <SaveStatus state={saveState} dirty={dirty} />
+            <div className="tomo-width-switch" aria-label="正文宽度">
+              {DOC_WIDTH_OPTIONS.map((option) => (
+                <button
+                  key={option.value}
+                  className={`tomo-width-btn ${docWidth === option.value ? 'is-active' : ''}`}
+                  type="button"
+                  title={option.title}
+                  aria-pressed={docWidth === option.value}
+                  onClick={() => changeDocWidth(option.value)}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
             {isWriter && (
               <div className="tomo-mode-switch">
                 <button

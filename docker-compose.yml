@@ -28,4 +28,5 @@ services:
       PORT: "4000"
     volumes:
       # 绑定挂载：容器 /data 映射到部署目录下的 appdata/
+      # 旧版 tomo-data 命名卷升级前请先按 README 迁移数据
       - ./appdata:/data

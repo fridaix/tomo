@@ -1,5 +1,5 @@
 import { type Editor } from '@tiptap/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './EditorToolbar.css';
 
 interface Props {
@@ -9,8 +9,15 @@ interface Props {
 export default function EditorToolbar({ editor }: Props) {
   // 订阅 editor 选区/状态变化，让按钮高亮实时更新
   const [, force] = useState(0);
-  editor.on('selectionUpdate', () => force((n) => n + 1));
-  editor.on('transaction', () => force((n) => n + 1));
+  useEffect(() => {
+    const rerender = () => force((n) => n + 1);
+    editor.on('selectionUpdate', rerender);
+    editor.on('transaction', rerender);
+    return () => {
+      editor.off('selectionUpdate', rerender);
+      editor.off('transaction', rerender);
+    };
+  }, [editor]);
 
   const is = (name: string, attrs?: Record<string, unknown>) =>
     editor.isActive(name, attrs);
