@@ -9,3 +9,6 @@ dist-ssr
 *.tsbuildinfo
 vite.config.d.ts
 vite.config.js
+
+# 本地部署配置（含密钥，绝不提交）
+deploy/
