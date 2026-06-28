@@ -17,7 +17,7 @@ services:
       TOMO_ADMIN_USER: "${TOMO_ADMIN_USER:-admin}"
       TOMO_ADMIN_PASSWORD: "${TOMO_ADMIN_PASSWORD:?请在 .env 中设置 TOMO_ADMIN_PASSWORD}"
 
-      # === 数据路径（已挂到持久卷，一般不用改） ===
+      # === 数据路径（映射到宿主机 ./appdata，一般不用改） ===
       TOMO_REPO_PATH: /data/tomo-docs
       TOMO_USERS_FILE: /data/users.json
 
@@ -27,8 +27,5 @@ services:
 
       PORT: "4000"
     volumes:
-      # 文档仓库 + 用户文件持久化到命名卷
-      - tomo-data:/data
-
-volumes:
-  tomo-data:
+      # 绑定挂载：容器 /data 映射到部署目录下的 appdata/
+      - ./appdata:/data

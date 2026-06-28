@@ -12,3 +12,10 @@ vite.config.js
 
 # 本地部署配置（含密钥，绝不提交）
 deploy/
+
+# 运行时数据（compose 绑定挂载生成）
+appdata/
+
+# IDE
+.idea/
+.vscode/

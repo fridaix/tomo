@@ -64,12 +64,12 @@ docker compose up -d --build
 # http://<服务器>:4000  用 .env 里的管理员账号登录
 ```
 
-数据持久化在命名卷 `tomo-data`（挂到容器内 `/data`）：
+数据绑定挂载到部署目录下的 `appdata/`（容器内 `/data`）：
 
-- `/data/tomo-docs` — 文档 Git 仓库
-- `/data/users.json` — 用户与密码哈希
+- `appdata/tomo-docs` — 文档 Git 仓库
+- `appdata/users.json` — 用户与密码哈希
 
-文档随时可取走：`docker compose exec tomo git -C /data/tomo-docs log`，或把卷里的 `tomo-docs` 目录 `git clone` 出来。
+文档随时可取走：`git -C appdata/tomo-docs log`，或直接 `git clone appdata/tomo-docs`。容器内进程以 root 运行，`appdata/` 内文件归 root，宿主机直接编辑可能需 `sudo`。
 
 放到反向代理后面（推荐，便于上 HTTPS）：
 
