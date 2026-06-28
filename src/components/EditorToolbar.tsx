@@ -23,6 +23,8 @@ export default function EditorToolbar({ editor }: Props) {
     editor.isActive(name, attrs);
 
   const inTable = editor.isActive('table');
+  const canMergeCells = inTable && editor.can().mergeCells();
+  const canSplitCell = inTable && editor.can().splitCell();
 
   return (
     <div className="tomo-tb">
@@ -87,6 +89,10 @@ export default function EditorToolbar({ editor }: Props) {
             onClick={() => editor.chain().focus().deleteRow().run()}>✕行</Btn>
           <Btn title="删除列"
             onClick={() => editor.chain().focus().deleteColumn().run()}>✕列</Btn>
+          <Btn title="合并选中的单元格" disabled={!canMergeCells}
+            onClick={() => editor.chain().focus().mergeCells().run()}>合并</Btn>
+          <Btn title="拆分当前单元格" disabled={!canSplitCell}
+            onClick={() => editor.chain().focus().splitCell().run()}>拆分</Btn>
           <Btn title="删除表格" danger
             onClick={() => editor.chain().focus().deleteTable().run()}>删表格</Btn>
         </div>
@@ -101,21 +107,25 @@ function Btn({
   active,
   title,
   danger,
+  disabled,
 }: {
   children: React.ReactNode;
   onClick: () => void;
   active?: boolean;
   title: string;
   danger?: boolean;
+  disabled?: boolean;
 }) {
   return (
     <button
       type="button"
       title={title}
       className={`tomo-tb-btn${active ? ' is-active' : ''}${danger ? ' is-danger' : ''}`}
+      disabled={disabled}
       // 用 mousedown 防止点按钮时编辑器失焦丢选区
       onMouseDown={(e) => {
         e.preventDefault();
+        if (disabled) return;
         onClick();
       }}
     >
