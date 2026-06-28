@@ -1,7 +1,7 @@
 {
   "name": "tomo-server",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.0.2",
   "type": "module",
   "description": "Tomo 后端：本地 Git 仓库文档服务",
   "scripts": {
