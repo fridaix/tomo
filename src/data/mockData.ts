@@ -109,7 +109,7 @@ export const mockContent: Record<string, string> = {
 
 ### Added
 - 初始化 Tomo 项目
-- 集成 uiwjs/react-md-editor
+- 集成 TipTap 所见即所得编辑器
 - 实现 Tomo 暖色主题
 - 创建文档树布局
 

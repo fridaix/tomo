@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import MDEditor from '@uiw/react-md-editor';
+import MarkdownView from './MarkdownView';
 import { api, type Revision } from '../api';
 import './HistoryPanel.css';
 
@@ -115,8 +115,8 @@ export default function HistoryPanel({ path, open, onClose, onRestore }: History
                       恢复到此版本
                     </button>
                   </div>
-                  <div className="tomo-history-preview-content" data-color-mode="light">
-                    <MDEditor.Markdown source={preview} />
+                  <div className="tomo-history-preview-content">
+                    <MarkdownView source={preview} />
                   </div>
                 </>
               )

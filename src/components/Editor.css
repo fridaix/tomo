@@ -1,151 +1,373 @@
-/* ============ 阅读模式：纯净渲染 ============ */
-.tomo-reader {
+/* ============ TipTap 编辑器工具栏 ============ */
+.tomo-tb {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--tomo-bg);
+  border: 1px solid var(--tomo-border);
+  border-radius: var(--tomo-radius);
+  padding: 6px 8px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  box-shadow: 0 1px 3px rgba(26, 27, 31, 0.04);
+}
+
+.tomo-tb-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.tomo-tb-sep {
+  width: 1px;
+  height: 20px;
+  background-color: var(--tomo-border);
+  margin: 0 4px;
+}
+
+.tomo-tb-btn {
+  border: none;
+  background: transparent;
+  color: var(--tomo-fg-muted);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 5px 9px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.1s ease, color 0.1s ease;
+  white-space: nowrap;
+  line-height: 1;
+}
+.tomo-tb-btn:hover {
+  background-color: var(--tomo-hover);
+  color: var(--tomo-text);
+}
+.tomo-tb-btn.is-active {
+  background-color: var(--tomo-accent-soft);
+  color: var(--tomo-accent);
+}
+.tomo-tb-btn.is-danger {
+  color: #c4452f;
+}
+.tomo-tb-btn.is-danger:hover {
+  background-color: #fbeae6;
+}
+
+/* ============ TipTap 编辑区域样式（WYSIWYG） ============ */
+.tomo-editor-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.tomo-editor .ProseMirror {
+  outline: none;
   font-family: var(--tomo-font-sans);
   font-size: 16px;
   line-height: 1.75;
   color: var(--tomo-text);
+  padding: 0;
 }
 
-/* 让 wmde-markdown 融入页面，去掉自带背景/边框 */
-.tomo-reader .wmde-markdown {
-  background-color: transparent !important;
-  color: var(--tomo-text);
-  font-family: var(--tomo-font-sans);
-  font-size: 16px;
-  line-height: 1.75;
-}
-
-/* 标题层级 (Outline 风：粗、紧凑字距、充足上间距) */
-.tomo-reader .wmde-markdown h1 {
+/* 标题 */
+.tomo-editor .ProseMirror h1 {
   font-size: 2.25em;
   font-weight: 700;
   letter-spacing: -0.02em;
-  border: none;
-  padding: 0;
   margin: 0 0 0.4em;
   line-height: 1.2;
 }
-.tomo-reader .wmde-markdown h2 {
+.tomo-editor .ProseMirror h2 {
   font-size: 1.5em;
   font-weight: 650;
   letter-spacing: -0.015em;
-  border: none;
-  padding: 0;
   margin: 1.6em 0 0.5em;
 }
-.tomo-reader .wmde-markdown h3 {
+.tomo-editor .ProseMirror h3 {
   font-size: 1.2em;
   font-weight: 600;
   margin: 1.4em 0 0.4em;
 }
-.tomo-reader .wmde-markdown h4,
-.tomo-reader .wmde-markdown h5,
-.tomo-reader .wmde-markdown h6 {
+.tomo-editor .ProseMirror h4,
+.tomo-editor .ProseMirror h5,
+.tomo-editor .ProseMirror h6 {
   font-weight: 600;
   margin: 1.2em 0 0.3em;
 }
 
-.tomo-reader .wmde-markdown p {
+.tomo-editor .ProseMirror p {
   margin: 0 0 1.1em;
 }
 
-/* 链接：克制的强调色，下划线在 hover 才出现 */
-.tomo-reader .wmde-markdown a {
+/* 链接 */
+.tomo-editor .ProseMirror a {
   color: var(--tomo-accent);
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color 0.15s ease;
+  cursor: pointer;
 }
-.tomo-reader .wmde-markdown a:hover {
+.tomo-editor .ProseMirror a:hover {
   border-bottom-color: var(--tomo-accent);
-  text-decoration: none;
 }
 
 /* 行内代码 */
-.tomo-reader .wmde-markdown code {
+.tomo-editor .ProseMirror code {
   background-color: var(--tomo-hover);
-  color: #C4612F;
+  color: #c4612f;
   padding: 0.15em 0.4em;
   border-radius: 5px;
   font-size: 0.88em;
+  font-family: 'SFMono-Regular', ui-monospace, monospace;
 }
 
-/* 代码块：浅灰底，不再是黑块 */
-.tomo-reader .wmde-markdown pre {
-  background-color: #F7F8FA !important;
+/* 代码块 */
+.tomo-editor .ProseMirror pre {
+  background-color: #f7f8fa;
   border: 1px solid var(--tomo-border);
   border-radius: 10px;
   padding: 16px 18px;
+  margin: 1.2em 0;
+  overflow-x: auto;
 }
-.tomo-reader .wmde-markdown pre code {
+.tomo-editor .ProseMirror pre code {
   background-color: transparent;
-  color: #2B2F36;
+  color: #2b2f36;
   padding: 0;
   font-size: 13.5px;
   line-height: 1.6;
+  font-family: 'SFMono-Regular', ui-monospace, monospace;
 }
 
-/* 引用：左侧细线，柔和 */
-.tomo-reader .wmde-markdown blockquote {
+/* 引用 */
+.tomo-editor .ProseMirror blockquote {
   border-left: 3px solid var(--tomo-border);
-  background: transparent;
   padding: 0.1em 0 0.1em 1.2em;
   margin: 1.2em 0;
   color: var(--tomo-fg-muted);
 }
 
-.tomo-reader .wmde-markdown ul,
-.tomo-reader .wmde-markdown ol {
+/* 列表 */
+.tomo-editor .ProseMirror ul,
+.tomo-editor .ProseMirror ol {
   padding-left: 1.5em;
   margin: 0 0 1.1em;
 }
-.tomo-reader .wmde-markdown li {
+.tomo-editor .ProseMirror li {
   margin: 0.3em 0;
 }
-.tomo-reader .wmde-markdown li::marker {
+.tomo-editor .ProseMirror li::marker {
   color: var(--tomo-fg-subtle);
 }
 
 /* 任务列表 */
-.tomo-reader .wmde-markdown input[type='checkbox'] {
+.tomo-editor .ProseMirror ul[data-type='taskList'] {
+  list-style: none;
+  padding-left: 0;
+}
+.tomo-editor .ProseMirror ul[data-type='taskList'] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+}
+.tomo-editor .ProseMirror ul[data-type='taskList'] input[type='checkbox'] {
+  margin-top: 0.35em;
   accent-color: var(--tomo-accent);
+  cursor: pointer;
 }
 
 /* 分割线 */
-.tomo-reader .wmde-markdown hr {
+.tomo-editor .ProseMirror hr {
   border: none;
   border-top: 1px solid var(--tomo-border);
   margin: 2.4em 0;
 }
 
-/* 表格：轻量 */
-.tomo-reader .wmde-markdown table {
+/* 表格：可点击编辑的实时渲染 */
+.tomo-editor .ProseMirror table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.2em 0;
+  font-size: 14.5px;
+  table-layout: auto;
+}
+.tomo-editor .ProseMirror table th,
+.tomo-editor .ProseMirror table td {
+  border: 1px solid var(--tomo-border);
+  padding: 8px 13px;
+  text-align: left;
+  vertical-align: top;
+  position: relative;
+  min-width: 60px;
+}
+.tomo-editor .ProseMirror table th {
+  background-color: var(--tomo-sidebar);
+  font-weight: 600;
+}
+.tomo-editor .ProseMirror table tr:nth-child(2n) {
+  background-color: #fcfcfd;
+}
+/* 选中单元格时高亮 */
+.tomo-editor .ProseMirror .selectedCell {
+  background-color: var(--tomo-accent-soft);
+}
+
+/* 图片 */
+.tomo-editor .ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--tomo-radius);
+  margin: 1em 0;
+}
+
+/* Placeholder */
+.tomo-editor .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--tomo-fg-subtle);
+  pointer-events: none;
+  position: absolute;
+}
+
+/* ============ 阅读模式（复用编辑样式） ============ */
+.tomo-reader .ProseMirror {
+  font-family: var(--tomo-font-sans);
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--tomo-text);
+  outline: none;
+}
+
+.tomo-reader .ProseMirror h1 {
+  font-size: 2.25em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.4em;
+  line-height: 1.2;
+}
+.tomo-reader .ProseMirror h2 {
+  font-size: 1.5em;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  margin: 1.6em 0 0.5em;
+}
+.tomo-reader .ProseMirror h3 {
+  font-size: 1.2em;
+  font-weight: 600;
+  margin: 1.4em 0 0.4em;
+}
+.tomo-reader .ProseMirror h4,
+.tomo-reader .ProseMirror h5,
+.tomo-reader .ProseMirror h6 {
+  font-weight: 600;
+  margin: 1.2em 0 0.3em;
+}
+
+.tomo-reader .ProseMirror p {
+  margin: 0 0 1.1em;
+}
+
+.tomo-reader .ProseMirror a {
+  color: var(--tomo-accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease;
+}
+.tomo-reader .ProseMirror a:hover {
+  border-bottom-color: var(--tomo-accent);
+}
+
+.tomo-reader .ProseMirror code {
+  background-color: var(--tomo-hover);
+  color: #c4612f;
+  padding: 0.15em 0.4em;
+  border-radius: 5px;
+  font-size: 0.88em;
+  font-family: 'SFMono-Regular', ui-monospace, monospace;
+}
+
+.tomo-reader .ProseMirror pre {
+  background-color: #f7f8fa;
+  border: 1px solid var(--tomo-border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin: 1.2em 0;
+  overflow-x: auto;
+}
+.tomo-reader .ProseMirror pre code {
+  background-color: transparent;
+  color: #2b2f36;
+  padding: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.tomo-reader .ProseMirror blockquote {
+  border-left: 3px solid var(--tomo-border);
+  padding: 0.1em 0 0.1em 1.2em;
+  margin: 1.2em 0;
+  color: var(--tomo-fg-muted);
+}
+
+.tomo-reader .ProseMirror ul,
+.tomo-reader .ProseMirror ol {
+  padding-left: 1.5em;
+  margin: 0 0 1.1em;
+}
+.tomo-reader .ProseMirror li {
+  margin: 0.3em 0;
+}
+.tomo-reader .ProseMirror li::marker {
+  color: var(--tomo-fg-subtle);
+}
+
+.tomo-reader .ProseMirror ul[data-type='taskList'] {
+  list-style: none;
+  padding-left: 0;
+}
+.tomo-reader .ProseMirror ul[data-type='taskList'] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+}
+.tomo-reader .ProseMirror ul[data-type='taskList'] input[type='checkbox'] {
+  margin-top: 0.35em;
+  accent-color: var(--tomo-accent);
+  pointer-events: none; /* 阅读模式不可点击 */
+}
+
+.tomo-reader .ProseMirror hr {
+  border: none;
+  border-top: 1px solid var(--tomo-border);
+  margin: 2.4em 0;
+}
+
+.tomo-reader .ProseMirror table {
   border-collapse: collapse;
   width: 100%;
   margin: 1.2em 0;
   font-size: 14.5px;
 }
-.tomo-reader .wmde-markdown table th,
-.tomo-reader .wmde-markdown table td {
+.tomo-reader .ProseMirror table th,
+.tomo-reader .ProseMirror table td {
   border: 1px solid var(--tomo-border);
   padding: 8px 13px;
   text-align: left;
 }
-.tomo-reader .wmde-markdown table th {
+.tomo-reader .ProseMirror table th {
   background-color: var(--tomo-sidebar);
   font-weight: 600;
 }
-.tomo-reader .wmde-markdown table tr {
-  background-color: transparent;
-}
-.tomo-reader .wmde-markdown table tr:nth-child(2n) {
-  background-color: #FCFCFD;
+.tomo-reader .ProseMirror table tr:nth-child(2n) {
+  background-color: #fcfcfd;
 }
 
-/* ============ 编辑模式：无边框沉浸 ============ */
-.tomo-editor-wrapper {
-  width: 100%;
-  position: relative;
+.tomo-reader .ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--tomo-radius);
+  margin: 1em 0;
 }
 
 /* 上传提示 */
@@ -161,48 +383,4 @@
   padding: 8px 18px;
   border-radius: var(--tomo-radius-pill);
   box-shadow: var(--tomo-shadow);
-}
-
-/* 去掉编辑器的边框、阴影、圆角，让它像在写纯文本 */
-.tomo-editor-wrapper .tomo-editor.w-md-editor {
-  box-shadow: none !important;
-  border: none !important;
-  background-color: transparent !important;
-  --md-editor-background-color: transparent;
-}
-
-.tomo-editor-wrapper .w-md-editor-toolbar {
-  background-color: var(--tomo-bg);
-  border: 1px solid var(--tomo-border);
-  border-radius: var(--tomo-radius);
-  padding: 6px 8px;
-  margin-bottom: 16px;
-  position: sticky;
-  top: 0;
-  z-index: 5;
-}
-
-.tomo-editor-wrapper .w-md-editor-toolbar li > button {
-  color: var(--tomo-fg-muted);
-  border-radius: 5px;
-}
-.tomo-editor-wrapper .w-md-editor-toolbar li > button:hover {
-  background-color: var(--tomo-hover);
-  color: var(--tomo-accent);
-}
-.tomo-editor-wrapper .w-md-editor-toolbar li.active > button {
-  background-color: var(--tomo-accent-soft);
-  color: var(--tomo-accent);
-}
-
-.tomo-editor-wrapper .w-md-editor-text {
-  padding: 0;
-}
-.tomo-editor-wrapper .w-md-editor-text-pre,
-.tomo-editor-wrapper .w-md-editor-text-input,
-.tomo-editor-wrapper .w-md-editor-text-pre > code {
-  font-family: 'SFMono-Regular', ui-monospace, 'JetBrains Mono', Menlo, monospace !important;
-  font-size: 14.5px !important;
-  line-height: 1.75 !important;
-  color: var(--tomo-text);
 }

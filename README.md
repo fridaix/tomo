@@ -17,7 +17,7 @@ Browser
 
 ## 技术栈
 
-- 前端：React 18 + TypeScript + Vite 6 + @uiw/react-md-editor
+- 前端：React 18 + TypeScript + Vite 6 + TipTap（所见即所得编辑器）
 - 后端：Node + Express + TypeScript + isomorphic-git
 
 ## 运行
@@ -151,7 +151,8 @@ Internet → Caddy/Nginx (443, TLS) → tomo:4000
 - 图片粘贴 / 拖拽上传（内容哈希命名 + 去重，存入仓库 assets/ 并 commit）
 - 登录页 + 会话鉴权 + reader/writer 角色（reader 只读，UI 自动隐藏编辑入口）
 - 用户管理面板（writer 可加人 / 改角色 / 改密码 / 删除；角色变更即时生效，无需重新登录）
-- 阅读 / 编辑双模式，Cmd/Ctrl+S 保存
+- 所见即所得编辑（TipTap）：可视化表格编辑、任务列表、富文本工具栏；文档仍以 markdown 存 git，加载时 md→编辑器、保存时编辑器→md
+- 阅读 / 编辑双模式，Cmd/Ctrl+S 保存，保存成功 toast 提示
 
 ## 待做
 
