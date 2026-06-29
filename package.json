@@ -1,7 +1,7 @@
 {
   "name": "tomo-web",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.0.2",
   "type": "module",
   "description": "Tomo - 基于 Gitea 的轻量团队文档 UI",
   "scripts": {

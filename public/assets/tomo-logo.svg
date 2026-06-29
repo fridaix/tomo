@@ -1,0 +1,9 @@
+<svg width="320" height="80" viewBox="0 0 320 80" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title">
+  <title id="title">Tomo</title>
+  <g transform="translate(44 21)">
+    <path d="M0 18L7.9 3.4H40.5L32.6 18H0Z" fill="#49E66F"/>
+    <path d="M31.7 3.4H75.8L67.1 19H46.6L41.6 27.6V42.4H24.3V20.2L15.1 12.5L19.9 3.4L32.5 13.8L31.7 3.4Z" fill="#37D763"/>
+    <path d="M42.1 3.4H75.8L67.1 19H53.2L45.1 33.2H31.3L42.1 3.4Z" fill="#5AEE80" fill-opacity=".84"/>
+  </g>
+  <text x="133" y="64" fill="#1A1B1F" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="49" font-weight="780" letter-spacing="-2">Tomo</text>
+</svg>

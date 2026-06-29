@@ -1,7 +1,6 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Markdown } from '@tiptap/markdown';
-import { Table } from '@tiptap/extension-table';
 import { TableRow } from '@tiptap/extension-table-row';
 import { TableCell } from '@tiptap/extension-table-cell';
 import { TableHeader } from '@tiptap/extension-table-header';
@@ -9,6 +8,7 @@ import { TaskList } from '@tiptap/extension-task-list';
 import { TaskItem } from '@tiptap/extension-task-item';
 import { Image } from '@tiptap/extension-image';
 import { useEffect } from 'react';
+import { RichTable } from '../extensions/RichTable';
 
 interface Props {
   source: string;
@@ -21,7 +21,7 @@ export default function MarkdownView({ source }: Props) {
     extensions: [
       StarterKit,
       Markdown,
-      Table,
+      RichTable,
       TableRow,
       TableHeader,
       TableCell,

@@ -45,6 +45,15 @@
   background-color: var(--tomo-hover);
   color: var(--tomo-text);
 }
+.tomo-tb-btn:disabled {
+  color: var(--tomo-fg-subtle);
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.tomo-tb-btn:disabled:hover {
+  background-color: transparent;
+  color: var(--tomo-fg-subtle);
+}
 .tomo-tb-btn.is-active {
   background-color: var(--tomo-accent-soft);
   color: var(--tomo-accent);

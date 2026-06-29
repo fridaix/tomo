@@ -35,7 +35,7 @@
   --tomo-radius-pill: 999px;
 
   /* 文档阅读区宽度 (Outline 居中布局) */
-  --tomo-content-width: 46rem;
+  --tomo-content-width: 64rem;
 
   --tomo-shadow-sm: 0 1px 2px rgba(26, 27, 31, 0.04);
   --tomo-shadow: 0 4px 16px rgba(26, 27, 31, 0.06);

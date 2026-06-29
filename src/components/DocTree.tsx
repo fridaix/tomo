@@ -53,7 +53,7 @@ function MoreIcon() {
 }
 
 function TreeItem({ node, depth, activePath, onSelect, onAction, showActions }: TreeItemProps) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const isActive = node.path === activePath;

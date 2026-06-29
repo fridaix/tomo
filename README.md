@@ -71,6 +71,26 @@ docker compose up -d --build
 
 文档随时可取走：`git -C appdata/tomo-docs log`，或直接 `git clone appdata/tomo-docs`。容器内进程以 root 运行，`appdata/` 内文件归 root，宿主机直接编辑可能需 `sudo`。
 
+### 从旧版 `tomo-data` 命名卷升级
+
+旧版 compose 使用 Docker 命名卷 `tomo-data`。升级到当前 `./appdata:/data` 绑定挂载前，先把旧卷内容复制出来，否则启动后会看到一个全新的空仓库。
+
+```bash
+docker compose down
+mkdir -p appdata
+
+# 找到旧版 compose 创建的 volume，通常以 tomo-data 结尾
+OLD_VOLUME="$(docker volume ls --format '{{.Name}}' | grep 'tomo-data$' | head -n 1)"
+test -n "$OLD_VOLUME"
+
+docker run --rm \
+  -v "$OLD_VOLUME:/from:ro" \
+  -v "$PWD/appdata:/to" \
+  alpine sh -c 'cp -a /from/. /to/'
+
+docker compose up -d --build
+```
+
 放到反向代理后面（推荐，便于上 HTTPS）：
 
 ```text

@@ -4,6 +4,18 @@
   background-color: var(--tomo-bg);
 }
 
+.tomo-app[data-doc-width='focus'] {
+  --tomo-content-width: 46rem;
+}
+
+.tomo-app[data-doc-width='spacious'] {
+  --tomo-content-width: 64rem;
+}
+
+.tomo-app[data-doc-width='expansive'] {
+  --tomo-content-width: 86rem;
+}
+
 /* ============ 侧边栏 ============ */
 .tomo-sidebar {
   width: 264px;
@@ -30,27 +42,12 @@
 .tomo-brand {
   display: flex;
   align-items: center;
-  gap: 9px;
 }
 
-.tomo-brand-mark {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  background: linear-gradient(135deg, var(--tomo-accent), var(--tomo-accent-deep));
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.tomo-brand-name {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--tomo-text);
-  letter-spacing: -0.01em;
+.tomo-brand-logo {
+  display: block;
+  width: 112px;
+  height: auto;
 }
 
 /* 搜索框 */
@@ -284,6 +281,39 @@
   box-shadow: var(--tomo-shadow-sm);
 }
 
+/* 正文宽度切换 */
+.tomo-width-switch {
+  display: flex;
+  background-color: var(--tomo-hover);
+  border-radius: var(--tomo-radius-pill);
+  padding: 2px;
+  margin-right: 4px;
+}
+
+.tomo-width-btn {
+  border: none;
+  background: transparent;
+  padding: 5px 10px;
+  border-radius: var(--tomo-radius-pill);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--tomo-fg-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.tomo-width-btn:hover {
+  color: var(--tomo-text);
+}
+
+.tomo-width-btn.is-active {
+  background-color: var(--tomo-surface);
+  color: var(--tomo-text);
+  box-shadow: var(--tomo-shadow-sm);
+}
+
 /* 文档滚动容器 */
 .tomo-doc-scroll {
   flex: 1;
@@ -397,9 +427,45 @@
   max-width: var(--tomo-content-width);
   margin: 0 auto;
   padding: 24px 48px 160px;
+  transition: max-width 0.16s ease;
 }
 
 @media (max-width: 768px) {
+  .tomo-topbar {
+    height: auto;
+    min-height: 52px;
+    align-items: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 10px 12px;
+  }
+
+  .tomo-topbar-left {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .tomo-topbar-right {
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .tomo-breadcrumb {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .tomo-crumb {
+    min-width: 0;
+  }
+
+  .tomo-crumb.is-current {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .tomo-doc {
     padding: 16px 20px 120px;
   }
